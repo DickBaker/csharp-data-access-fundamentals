@@ -1,4 +1,5 @@
 ﻿
+using System.Data;
 using Microsoft.Data.SqlClient;
 
 // MOVE TO A SECURE PLACE!!!!
@@ -6,7 +7,6 @@ var connectionString =
     "Data Source=(LocalDB)\\MSSQLLocalDB;" +
     "Initial Catalog=WarehouseManagement;" +
     "Integrated Security=True;";
-
 
 using SqlConnection connection = new(connectionString);
 
@@ -16,29 +16,39 @@ using SqlCommand command = new(@"
     VALUES(NEWID(), @Name, @Address, @PostalCode, @Country, @PhoneNumber)
 ", connection);
 
-var nameParameter =
-    new SqlParameter("Name", System.Data.SqlDbType.NVarChar);
-nameParameter.Value = Console.ReadLine().Trim();
+SqlParameter nameParameter =
+    new SqlParameter("Name", SqlDbType.NVarChar)
+    {
+        Value = Console.ReadLine()?.Trim()
+    };
 command.Parameters.Add(nameParameter);
 
-var addressParameter =
-    new SqlParameter("Address", System.Data.SqlDbType.NVarChar);
-addressParameter.Value = Console.ReadLine().Trim();
+SqlParameter addressParameter =
+    new SqlParameter("Address", SqlDbType.NVarChar)
+    {
+        Value = Console.ReadLine()?.Trim()
+    };
 command.Parameters.Add(addressParameter);
 
-var postalCodeParameter =
-    new SqlParameter("PostalCode", System.Data.SqlDbType.NVarChar);
-postalCodeParameter.Value = Console.ReadLine().Trim();
+SqlParameter postalCodeParameter =
+    new SqlParameter("PostalCode", SqlDbType.NVarChar)
+    {
+        Value = Console.ReadLine()?.Trim()
+    };
 command.Parameters.Add(postalCodeParameter);
 
-var countryParameter =
-    new SqlParameter("Country", System.Data.SqlDbType.NVarChar);
-countryParameter.Value = Console.ReadLine().Trim();
+SqlParameter countryParameter =
+    new SqlParameter("Country", SqlDbType.NVarChar)
+    {
+        Value = Console.ReadLine()?.Trim()
+    };
 command.Parameters.Add(countryParameter);
 
-var phoneNumberParameter =
-    new SqlParameter("PhoneNumber", System.Data.SqlDbType.NVarChar);
-phoneNumberParameter.Value = Console.ReadLine().Trim();
+SqlParameter phoneNumberParameter =
+    new SqlParameter("PhoneNumber", SqlDbType.NVarChar)
+    {
+        Value = Console.ReadLine()?.Trim()
+    };
 command.Parameters.Add(phoneNumberParameter);
 
 connection.Open();
@@ -47,8 +57,6 @@ var rowsAffected = command.ExecuteNonQuery();
 
 Console.WriteLine($"Rows affected: {rowsAffected}");
 Console.ReadLine();
-
-
 
 //using SqlCommand command = new(
 //    "SELECT * FROM [Orders]" +
@@ -73,17 +81,13 @@ Console.ReadLine();
 //    Console.WriteLine(customer);
 //}
 
-
-
 //Console.ReadLine();
-
 
 //using Microsoft.EntityFrameworkCore;
 //using WarehouseManagementSystem;
 
 //Customer filip = new()
 //{
-//    Id = Guid.NewGuid(),
 //    Name = "Filip Ekberg",
 //    Address = "Kungsbacka",
 //    PostalCode = "434 94",
@@ -93,34 +97,30 @@ Console.ReadLine();
 
 //ShippingProvider shippingProvider = new()
 //{
-//    Id = Guid.NewGuid(),
 //    Name = "Swedish Postal Service",
 //    FreightCost = 100m
 //};
 
 //Item item = new()
 //{
-//    Id = Guid.NewGuid(),
 //    Name = "Shure SM7b",
 //    Description = "Microphone",
 //    InStock = 5,
 //    Price = 999,
 //    Warehouses = new WarehouseManagementSystem.Warehouse[] 
 //    { 
-//        new () { Id = Guid.NewGuid(), Location = "Sweden" }
+//        new () { Location = "Sweden" }
 //    }
 //};
 
 //Order order = new()
 //{
-//    Id = Guid.NewGuid(),
 //    Customer = filip,
 //    ShippingProvider = shippingProvider,
 //    LineItems = new LineItem[]
 //    {
 //        new()
 //        {
-//            Id = Guid.NewGuid(),
 //            Item = item,
 //            Quantity = 1
 //        }
@@ -148,12 +148,10 @@ Console.ReadLine();
 ////var firstCustomer = context.Customers.First();
 ////Order newOrder = new()
 ////{
-////    Id = Guid.NewGuid(),
 ////    LineItems = new LineItem[]
 ////    {
 ////        new()
 ////        {
-////            Id = Guid.NewGuid(),
 ////            Item = context.Items.First(),
 ////            Quantity = 1
 ////        }
@@ -166,20 +164,7 @@ Console.ReadLine();
 ////context.SaveChanges();
 ////Console.WriteLine("Order added!");
 
-
-
-
-
-
-
-
-
-
 ////Console.ReadLine();
-
-
-
-
 
 ////Console.Write("Enter customer name: ");
 
@@ -206,11 +191,6 @@ Console.ReadLine();
 ////context.SaveChanges();
 
 ////Console.ReadLine();
-
-
-
-
-
 
 ////var customer = context.Customers
 ////    .FirstOrDefault(customer => customer.Name == "Filip Ekberg");

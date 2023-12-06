@@ -1,10 +1,6 @@
 ﻿namespace WarehouseManagementSystem.Infrastructure;
 
-public class WarehouseRepository
-    : GenericRepository<Warehouse>
+public class WarehouseRepository(WarehouseContext context)
+        : GenericRepository<Warehouse>(context)
 {
-    public WarehouseRepository(WarehouseContext context) 
-        : base(context)
-    {
-    }
 }

@@ -12,6 +12,7 @@ public class OrderControllerTests
     public void CanCreateOrderWithCorrectModel()
     {
         // ARRANGE
+        var unitOfWork = new Mock<IUnitOfWork>();
         var orderRepository = new Mock<IRepository<Order>>();
         var itemRepository = new Mock<IRepository<Item>>();
         var shippingProviderRepository =
@@ -23,11 +24,7 @@ public class OrderControllerTests
             repository => repository.All()
         ).Returns(new[] { new ShippingProvider() });
 
-        var orderController = new OrderController(
-            orderRepository.Object,
-            shippingProviderRepository.Object,
-            itemRepository.Object
-        );
+        var orderController = new OrderController(unitOfWork.Object);
 
         var createOrderModel = new CreateOrderModel
         {
@@ -43,7 +40,6 @@ public class OrderControllerTests
             {
                 new LineItemModel
                 {
-                    ItemId = Guid.NewGuid(),
                     Quantity = 100
                 }
             }

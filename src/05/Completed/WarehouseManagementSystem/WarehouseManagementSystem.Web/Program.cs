@@ -21,7 +21,6 @@ builder.Services
     .AddTransient<IRepository<ShippingProvider>, ShippingProviderRepository>();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

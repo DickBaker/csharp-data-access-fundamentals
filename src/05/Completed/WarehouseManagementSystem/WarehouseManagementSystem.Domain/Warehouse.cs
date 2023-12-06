@@ -1,9 +1,8 @@
-﻿namespace WarehouseManagementSystem.Domain
+﻿namespace WarehouseManagementSystem.Domain;
+
+public class Warehouse
 {
-    public class Warehouse
-    {
-        public Guid Id { get; set; }
-        public string Location { get; set; }
-        public ICollection<Item> Items { get; set; }
-    }
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public string Location { get; set; } = default!;
+    public ICollection<Item> Items { get; set; } = new HashSet<Item>();
 }

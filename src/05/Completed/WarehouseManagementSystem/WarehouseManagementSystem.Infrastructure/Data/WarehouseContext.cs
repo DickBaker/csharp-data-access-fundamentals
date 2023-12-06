@@ -1,28 +1,27 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace WarehouseManagementSystem
+namespace WarehouseManagementSystem;
+
+public class WarehouseContext
+    : DbContext
 {
-    public class WarehouseContext
-        : DbContext
+    public DbSet<Customer> Customers { get; set; } = default!;
+    public DbSet<Warehouse> Warehouses { get; set; } = default!;
+    public DbSet<Item> Items { get; set; } = default!;
+    public DbSet<LineItem> LineItems { get; set; } = default!;
+    public DbSet<Order> Orders { get; set; } = default!;
+    public DbSet<ShippingProvider> ShippingProviders { get; set; } = default!;
+
+    protected override void
+        OnConfiguring(DbContextOptionsBuilder
+        optionsBuilder)
     {
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<Warehouse> Warehouses { get; set; }
-        public DbSet<Item> Items { get; set; }
-        public DbSet<LineItem> LineItems { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<ShippingProvider> ShippingProviders { get; set; }
+        // MOVE TO A SECURE PLACE!!!!
+        const string connectionString =
+            "Data Source=(LocalDB)\\MSSQLLocalDB;" +
+            "Initial Catalog=WarehouseManagement;" +
+            "Integrated Security=True;";
 
-        protected override void 
-            OnConfiguring(DbContextOptionsBuilder 
-            optionsBuilder)
-        {
-            // MOVE TO A SECURE PLACE!!!!
-            var connectionString =
-                "Data Source=(LocalDB)\\MSSQLLocalDB;" +
-                "Initial Catalog=WarehouseManagement;" +
-                "Integrated Security=True;";
-
-            optionsBuilder.UseSqlServer(connectionString);
-        }
+        optionsBuilder.UseSqlServer(connectionString);
     }
 }

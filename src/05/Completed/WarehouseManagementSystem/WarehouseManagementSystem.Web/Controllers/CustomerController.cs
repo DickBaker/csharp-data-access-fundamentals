@@ -3,14 +3,9 @@ using WarehouseManagementSystem.Infrastructure;
 
 namespace WarehouseManagementSystem.Web.Controllers;
 
-public class CustomerController : Controller
+public class CustomerController(IRepository<Customer> customerRepository) : Controller
 {
-    private IRepository<Customer> customerRepository;
-
-    public CustomerController(IRepository<Customer> customerRepository)
-    {
-        this.customerRepository = customerRepository;
-    }
+    private readonly IRepository<Customer> customerRepository = customerRepository;
 
     public IActionResult Index(Guid? id)
     {

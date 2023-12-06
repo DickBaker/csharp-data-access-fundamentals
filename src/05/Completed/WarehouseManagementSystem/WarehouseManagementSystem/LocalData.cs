@@ -1,83 +1,70 @@
 ﻿using System.Text.Json;
-using WarehouseManagementSystem.Domain;
 
-namespace WarehouseManagementSystem
+namespace WarehouseManagementSystem;
+
+internal static class LocalData
 {
-    internal class LocalData
+    public static IEnumerable<Domain.Order> Load()
     {
-        public static IEnumerable<Domain.Order> Load()
+        var json = File.ReadAllText("orders.json");
+
+        return JsonSerializer.Deserialize<IEnumerable<Domain.Order>>(json) ?? Enumerable.Empty<Domain.Order>();
+    }
+
+    public static void GenerateAndSave()
+    {
+        Warehouse[] warehouses =
+        [
+            new() { Location = "Sweden" },
+            new() { Location = "USA" }
+        ];
+
+        Item[] items =
+        [
+            new() { Name = "Shure SM7b", InStock = 5,  Price = 399.50m, Description = "Popular microphone for streaming, podcasting and voice over", Warehouses = warehouses},
+            new() { Name = "Sennheiser MKH 416", InStock = 3,  Price = 1099.50m, Description = "Professional voice over microphone", Warehouses = warehouses}
+                    ];
+
+        ShippingProvider[] shippingProviders =
+        [
+            new() { Name = "Swedish Postal Service", FreightCost = 10m },
+            new() { Name = "United States Postal Service", FreightCost = 5m }
+                    ];
+
+        Customer customer = new()
         {
-            var json = File.ReadAllText("orders.json");
+            Name = "Filip Ekberg",
+            Address = "Vallda",
+            Country = "Sweden",
+            PhoneNumber = "+46 555 123 123",
+            PostalCode = "434 94"
+        };
 
-            return JsonSerializer.Deserialize<IEnumerable<Domain.Order>>(json) ?? Enumerable.Empty<Domain.Order>();
-        }
-
-        public static void GenerateAndSave()
-        {
-            var warehouses = new Warehouse[]
+        Order[] orders =
+        [
+            new()
             {
-                new()
+                Customer = customer,
+                LineItems = new LineItem[]
                 {
-                    Id = Guid.NewGuid(),
-                    Location = "Sweden"
+                    new() { Item = items[0], Quantity = 2 },
+                    new() { Item = items[1], Quantity = 1 }
                 },
-                new()
+                ShippingProvider = shippingProviders[0]
+            },
+            new()
+            {
+                Customer = customer,
+                LineItems = new LineItem[]
                 {
-                    Id = Guid.NewGuid(),
-                    Location = "USA"
-                }
-                        };
-
-            var items = new Item[]
-            {
-                new() { Id = Guid.NewGuid(), Name = "Shure SM7b", InStock = 5,  Price = 399.50m, Description = "Popular microphone for streaming, podcasting and voice over", Warehouses = warehouses},
-                new() { Id = Guid.NewGuid(), Name = "Sennheiser MKH 416", InStock = 3,  Price = 1099.50m, Description = "Professional voice over microphone", Warehouses = warehouses}
-                        };
-
-            var shippingProviders = new ShippingProvider[]
-            {
-                new() { Id = Guid.NewGuid(), Name = "Swedish Postal Service", FreightCost = 10m },
-                new() { Id = Guid.NewGuid(), Name = "United States Postal Service", FreightCost = 5m }
-                        };
-
-            var customer = new Customer()
-            {
-                Id = Guid.NewGuid(),
-                Name = "Filip Ekberg",
-                Address = "Vallda",
-                Country = "Sweden",
-                PhoneNumber = "+46 555 123 123",
-                PostalCode = "434 94"
-            };
-
-            var orders = new Order[]
-            {
-                new()
-                {
-                    Id = Guid.NewGuid(),
-                    Customer = customer,
-                    LineItems = new LineItem[]
-                    {
-                        new() { Id = Guid.NewGuid(), Item = items[0], Quantity = 2 },
-                        new() { Id = Guid.NewGuid(), Item = items[1], Quantity = 1 }
-                    },
-                    ShippingProvider = shippingProviders.First()
+                    new() { Item = items[0], Quantity = 4 }
                 },
-                new()
-                {
-                    Id = Guid.NewGuid(),
-                    Customer = customer,
-                    LineItems = new LineItem[]
-                    {
-                        new() { Id = Guid.NewGuid(), Item = items[0], Quantity = 4 }
-                    },
-                    ShippingProvider = shippingProviders[1]
-                },
-            };
+                ShippingProvider = shippingProviders[1]
+            },
+        ];
 
-            var json = JsonSerializer.Serialize(orders);
+        var json = JsonSerializer.Serialize(orders);
 
-            File.WriteAllText("orders.json", json);
-        }
+        File.WriteAllText("orders.json", json);
     }
 }

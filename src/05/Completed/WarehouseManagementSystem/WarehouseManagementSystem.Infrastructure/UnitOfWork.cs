@@ -10,74 +10,53 @@ public interface IUnitOfWork
     void SaveChanges();
 }
 
-public class UnitOfWork : IUnitOfWork
+public class UnitOfWork(WarehouseContext context) : IUnitOfWork
 {
-    private WarehouseContext context;
-
-    public UnitOfWork(WarehouseContext context)
-    {
-        this.context = context;
-    }
-
-    private IRepository<Customer> customerRepository;
+    private readonly WarehouseContext _context = context;
+    private IRepository<Customer> customerRepository = default!;
     public IRepository<Customer> CustomerRepository
     {
         get
         {
-            if (customerRepository is null)
-            {
-                customerRepository =
-                    new CustomerRepository(context);
-            }
+            customerRepository ??=
+                    new CustomerRepository(_context);
             return customerRepository;
         }
     }
 
-    private IRepository<Order> orderRepository;
+    private IRepository<Order> orderRepository = default!;
     public IRepository<Order> OrderRepository
     {
         get
         {
-            if (orderRepository is null)
-            {
-                orderRepository =
-                    new OrderRepository(context);
-            }
+            orderRepository ??=new OrderRepository(_context);
             return orderRepository;
         }
     }
 
-    private IRepository<Item> itemRepository;
+    private IRepository<Item> itemRepository = default!;
     public IRepository<Item> ItemRepository
     {
         get
         {
-            if (itemRepository is null)
-            {
-                itemRepository =
-                    new ItemRepository(context);
-            }
+            itemRepository ??=new ItemRepository(_context);
             return itemRepository;
         }
     }
 
-    public IRepository<ShippingProvider>
-        shippingProviderRepository;
+    public IRepository<ShippingProvider> shippingProviderRepository = default!;
 
     public IRepository<ShippingProvider>
         ShippingProviderRepository
     {
         get
         {
-            if (shippingProviderRepository is null)
-            {
-                shippingProviderRepository
-                    = new ShippingProviderRepository(context);
-            }
+            shippingProviderRepository
+                    ??= new ShippingProviderRepository(_context);
 
             return shippingProviderRepository;
         }
     }
 
-    public void SaveChanges() => context.SaveChanges();
+    public void SaveChanges() => _context.SaveChanges();
 }

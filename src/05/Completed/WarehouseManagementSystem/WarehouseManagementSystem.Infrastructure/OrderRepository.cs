@@ -3,23 +3,15 @@ using System.Linq.Expressions;
 
 namespace WarehouseManagementSystem.Infrastructure;
 
-public class OrderRepository
-    : GenericRepository<Order>
+public class OrderRepository(WarehouseContext context)
+        : GenericRepository<Order>(context)
 {
-    public OrderRepository(WarehouseContext context)
-        : base(context)
-    {
-    }
-
     public override IEnumerable<Order>
-        Find(Expression<Func<Order, bool>> predicate)
-    {
-        return context.Orders
+        Find(Expression<Func<Order, bool>> predicate) => context.Orders
             .Include(order => order.LineItems)
             .ThenInclude(lineItem => lineItem.Item)
             .Where(predicate)
             .ToList();
-    }
 
     public override Order Update(Order entity)
     {

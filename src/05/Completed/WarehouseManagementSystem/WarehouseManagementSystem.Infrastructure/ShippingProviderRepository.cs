@@ -1,9 +1,6 @@
 ﻿namespace WarehouseManagementSystem.Infrastructure;
 
-public class ShippingProviderRepository
-    : GenericRepository<ShippingProvider>
+public class ShippingProviderRepository(WarehouseContext context)
+        : GenericRepository<ShippingProvider>(context)
 {
-    public ShippingProviderRepository(WarehouseContext context) : base(context)
-    {
-    }
 }

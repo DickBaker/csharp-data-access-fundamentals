@@ -1,16 +1,11 @@
 ﻿namespace WarehouseManagementSystem.Infrastructure;
 
-public class CustomerRepository
-    : GenericRepository<Customer>
+public class CustomerRepository(WarehouseContext context)
+        : GenericRepository<Customer>(context)
 {
-    public CustomerRepository(WarehouseContext context) 
-        : base(context)
-    {
-    }
-
     public override Customer Update(Customer entity)
     {
-        Customer toUpdate = Get(entity.Id);
+        Customer toUpdate = Get(entity.Id) ?? throw new KeyNotFoundException("Customer");
         toUpdate.Name = entity.Name;
         toUpdate.Address = entity.Address;
         toUpdate.PostalCode = entity.PostalCode;

@@ -1,24 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace WarehouseManagementSystem;
 
-namespace WarehouseManagementSystem
+public partial class Item
 {
-    public partial class Item
-    {
-        public Item()
-        {
-            LineItems = new HashSet<LineItem>();
-            Warehouses = new HashSet<Warehouse>();
-        }
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public string Name { get; set; } = null!;
+    public string Description { get; set; } = null!;
+    public decimal Price { get; set; }
+    public int InStock { get; set; }
 
-        public Guid Id { get; set; }
-        public string Name { get; set; } = null!;
-        public string Description { get; set; } = null!;
-        public decimal Price { get; set; }
-        public int InStock { get; set; }
+    public virtual ICollection<LineItem> LineItems { get; set; } = new HashSet<LineItem>();
 
-        public virtual ICollection<LineItem> LineItems { get; set; }
-
-        public virtual ICollection<Warehouse> Warehouses { get; set; }
-    }
+    public virtual ICollection<Warehouse> Warehouses { get; set; } = new HashSet<Warehouse>();
 }

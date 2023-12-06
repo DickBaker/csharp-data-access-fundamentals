@@ -7,10 +7,7 @@ public abstract class GenericRepository<T>
 {
     protected WarehouseContext context;
 
-    public GenericRepository(WarehouseContext context)
-    {
-        this.context = context;
-    }
+    protected GenericRepository(WarehouseContext context) => this.context = context;
 
     public virtual T Add(T entity)
     {
@@ -26,7 +23,7 @@ public abstract class GenericRepository<T>
         return all;
     }
 
-    public virtual IEnumerable<T> 
+    public virtual IEnumerable<T>
         Find(Expression<Func<T, bool>> predicate)
     {
         var result = context.Set<T>().AsQueryable()
@@ -36,18 +33,9 @@ public abstract class GenericRepository<T>
         return result;
     }
 
-    public virtual T Get(Guid id)
-    {
-        return context.Find<T>(id);
-    }
+    public virtual T? Get(Guid id) => context.Find<T>(id);
 
-    public virtual void SaveChanges()
-    {
-        context.SaveChanges();
-    }
+    public virtual void SaveChanges() => context.SaveChanges();
 
-    public virtual T Update(T entity)
-    {
-        return context.Update(entity).Entity;
-    }
+    public virtual T Update(T entity) => context.Update(entity).Entity;
 }

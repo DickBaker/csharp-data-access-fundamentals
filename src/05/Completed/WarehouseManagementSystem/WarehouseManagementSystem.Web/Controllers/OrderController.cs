@@ -5,22 +5,17 @@ using WarehouseManagementSystem.Web.Models;
 
 namespace WarehouseManagementSystem.Web.Controllers;
 
-public class OrderController : Controller
+public class OrderController(
+    IUnitOfWork unitOfWork
+        ) : Controller
 {
-    private readonly IUnitOfWork unitOfWork;
-
-    public OrderController(
-        IUnitOfWork unitOfWork
-        )
-    {
-        this.unitOfWork = unitOfWork;
-    }
+    private readonly IUnitOfWork unitOfWork = unitOfWork;
 
     public IActionResult Index()
     {
         var orders =
             unitOfWork.OrderRepository.Find(
-                order => 
+                order =>
                 order.CreatedAt > DateTime.UtcNow.AddDays(-1)
             );
 
@@ -58,6 +53,7 @@ public class OrderController : Controller
                 Country = model.Customer.Country,
                 PhoneNumber = model.Customer.PhoneNumber
             };
+            unitOfWork.CustomerRepository.Add(customer);
         }
         else
         {
@@ -67,15 +63,13 @@ public class OrderController : Controller
             customer.PhoneNumber = model.Customer.PhoneNumber;
 
             unitOfWork.CustomerRepository.Update(customer);
-            
         }
 
         var order = new Order
         {
             LineItems = model.LineItems
-                .Select(line => new LineItem { 
-                    Id = Guid.NewGuid(), 
-                    ItemId = line.ItemId, 
+                .Select(line => new LineItem {
+                    ItemId = line.ItemId,
                     Quantity = line.Quantity
                 })
                 .ToList(),
@@ -92,14 +86,6 @@ public class OrderController : Controller
         return Ok("Order Created");
     }
 
-
-
-
-
-
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
+    public IActionResult Error() => View(new ErrorViewModel(Activity.Current?.Id ?? HttpContext.TraceIdentifier));
 }

@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarehouseManagementSystem.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarehouseManagementSystem.Web", "WarehouseManagementSystem.Web\WarehouseManagementSystem.Web.csproj", "{FB7A30FE-2C42-4306-9A6A-95C391487F8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarehouseManagementSystem.Infrastructure", "WarehouseManagementSystem.Infrastructure\WarehouseManagementSystem.Infrastructure.csproj", "{5B26A241-2F64-46EA-ACDD-CDC046C985C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarehouseManagementSystem.Infrastructure", "WarehouseManagementSystem.Infrastructure\WarehouseManagementSystem.Infrastructure.csproj", "{5B26A241-2F64-46EA-ACDD-CDC046C985C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarehouseManagementSystem.Web.Tests", "WarehouseManagementSystem.Web.Tests\WarehouseManagementSystem.Web.Tests.csproj", "{D5D7DAF5-8F79-42F0-93B9-12AF6734FF22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarehouseManagementSystem.Web.Tests", "WarehouseManagementSystem.Web.Tests\WarehouseManagementSystem.Web.Tests.csproj", "{D5D7DAF5-8F79-42F0-93B9-12AF6734FF22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
